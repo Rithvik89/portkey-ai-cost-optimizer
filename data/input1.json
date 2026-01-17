@@ -1,0 +1,20 @@
+{
+  "agent_id": "agent1",
+  "team_id": "team1",
+  "model": "@openai/gpt-3.5-turbo",
+  "system_prompt": "You are a marketing assistant. Your task is to assist with creating marketing campaigns. Generate personalized marketing email copy for specific customer segments and campaign objectives. Output format : Marketing email with subject line, body text, CTA",
+  "inputs": [
+    {
+      "target_segment": "Small business owners, annual card spend $50K+, technology and software merchants",
+      "campaign_goal": "Increase B2B payment adoption by 25% and migrate from ACH/check to Visa commercial cards",
+      "offer_details": "Earn 2% cashback on software subscriptions and cloud services, plus $500 statement credit after $10K spend in first 3 months",
+      "tone": "Professional, ROI-focused, time-saving emphasis"
+    },
+    {
+      "target_segment": "Gen Z cardholders (18-25), first credit card, limited credit history, digitally native",
+      "campaign_goal": "Drive card activation within 7 days of issuance and achieve 5+ transactions in first month",
+      "offer_details": "Exclusive access to presale concert tickets through Visa Entertainment, no annual fee, build credit with responsible use",
+      "tone": "Conversational, empowering, mobile-first language, avoid financial jargon"
+    }
+  ]
+}
