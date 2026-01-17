@@ -1,0 +1,51 @@
+scheduler:
+  interval_seconds: 86400   # run every 24 hours
+
+workspace:
+  id: "Team 23"
+
+team:
+  id: "team1"
+  agents:
+    - name: "agent4"
+
+export:
+  time_window:  ## This has to be calculated on fly from interval seconds.
+    from: "2026-01-16"
+    to: "2026-01-18"
+  output_dir: "exports"
+
+
+models:
+  - "@openai/gpt-4"
+
+agents:
+  agent4:
+    description: >
+      Generates personalized marketing email copy for Visa campaigns.
+    system_prompt_for_runners: prompts/campaign_copy_generator_system.txt
+    judge:
+      provider: portkey
+      model: "@openai/gpt-4o-mini"
+      temperature: 0
+      prompt_file: prompts/campaign_copy_generator_evaluator.txt
+
+  agent2:
+    description: >
+      Generates personalized marketing email copy for Visa campaigns.
+    system_prompt_for_runners: prompts/campaign_copy_generator_system.txt
+    judge:
+      provider: portkey
+      model: "@openai/gpt-4o-mini"
+      temperature: 0
+      prompt_file: prompts/campaign_copy_generator_evaluator.txt
+
+  agent3:
+    description: >
+      Generates personalized marketing email copy for Visa campaigns.
+    system_prompt_for_runners: prompts/campaign_copy_generator_system.txt
+    judge:
+      provider: portkey
+      model: "@openai/gpt-4o-mini"
+      temperature: 0
+      prompt_file: prompts/campaign_copy_generator_evaluator.txt

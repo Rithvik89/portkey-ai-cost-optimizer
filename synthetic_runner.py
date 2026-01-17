@@ -65,7 +65,7 @@ def main():
                 {"role": "system", "content": system_prompt},
                 {"role": "user", "content": str(input)}
             ],
-            model="@vertex/qwen3@qwen3-32b"
+            model="@openai/gpt-3.5-turbo"
         )
 
 
