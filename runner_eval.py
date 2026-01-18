@@ -125,7 +125,7 @@ class EvalRunner:
                 "environment": "dev",
                 "feature": "eval",
                 "team": "portkey",
-                "agent": "eval",
+                "agent": self.agent_id,
                 "model": model,
             }
         ).chat.completions.create(

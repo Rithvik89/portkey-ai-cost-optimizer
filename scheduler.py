@@ -9,6 +9,8 @@ import shutil
 import argparse
 
 from runner_eval import EvalRunner
+from html_reporter import HTMLReporter
+from datetime import datetime, timezone
 
 
 
@@ -75,11 +77,18 @@ class Scheduler:
             target_team_id=self.team_id,
         ) # agent2 , agent3
 
+        print(f"[Scheduler] Found agents: {agents}")
+
         for agent in agents:
+
+            print(f"[Scheduler] Creating output directory for agent: {agent}")
+
             os.mkdir(os.path.join(self.output_dir, agent))
             output_file = os.path.join(
                 self.output_dir, agent, f"baseline.jsonl"
             )
+
+            print(f"[Scheduler] Created output file: {output_file}")
 
             print(
                 f"[Scheduler] Exporting logs "
@@ -92,6 +101,7 @@ class Scheduler:
                 time_min=time_from,
                 time_max=time_to,
                 output_file=output_file,
+                model_id=None
             )
 
 
@@ -105,14 +115,24 @@ class Scheduler:
 
             results = eval_result
 
+            time_of_generation_min = datetime.now(timezone.utc).isoformat()
+            # Result: "2026-01-18T14:23:45.678901+00:00"
+
+            # Or with 'Z' suffix:
+            time_of_generation_min = datetime.now(timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ')
+            # Result: "2026-01-18T14:23:45Z"
+
+
             ## Run on differnt models mentioned in config.yaml and
             ## TODO: here we can achieve parallelism.
             EvalRunner(
                 config_path="config.yaml",
-                team_id=self.team_id,
+                team_id="portkey",
                 agent_id=agent,
                 log_file_path=output_file
             ).run()
+
+            time.sleep(15)  ## Small sleep to avoid rate limits.
 
             ## export_logs for all the models on this agent.
             for model in self.config["models"]:
@@ -121,9 +141,10 @@ class Scheduler:
                 )
 
                 self.log_extractor.export_logs_for_agent(
-                    team_id=self.team_id,
+                    team_id="portkey",
                     agent_id=agent,
-                    time_min=time_from,
+                    model_id=model.split('/')[-1],
+                    time_min=time_of_generation_min,
                     time_max=time_to,
                     output_file=output_file,
                 )
@@ -152,8 +173,16 @@ class Scheduler:
 
         ## Reporting the data.
 
-        result = self.EvalMetricStore.aggregate_model_metrics()
-        print(f"[Scheduler] Aggregated metrics: {result}")
+        metrics = self.EvalMetricStore.aggregate_model_metrics()
+
+        report_path = os.path.join(
+            self.output_dir, "evaluation_report.html"
+        )
+
+        HTMLReporter.write_html_report(
+            metrics=metrics,
+            output_path=report_path,
+        )
 
 
     def run_forever(self):
