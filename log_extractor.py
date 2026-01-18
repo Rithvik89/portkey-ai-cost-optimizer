@@ -30,6 +30,7 @@ class LogExtractor:
         agent_id: str,
         time_min: str,
         time_max: str,
+        model_id: Optional[str] = None,
         description: str = "Log Export",
     ) -> str:
         """
@@ -43,6 +44,7 @@ class LogExtractor:
                     "team": team_id,
                     "agent": agent_id,
                 },
+                "ai_model": model_id
             },
             workspace_id=self.workspace_id,
             description=description,
@@ -129,16 +131,30 @@ class LogExtractor:
         time_min: str,
         time_max: str,
         output_file: str,
+        model_id: Optional[str],
     ) -> None:
         """
         End-to-end export for a single agent.
         """
-        export_id = self.create_export(
-            team_id=team_id,
-            agent_id=agent_id,
-            time_min=time_min,
-            time_max=time_max,
-        )
+
+        if model_id:
+            print(f"[LogExtractor] Exporting logs for model: {model_id}")
+
+            export_id = self.create_export(
+                team_id=team_id,
+                agent_id=agent_id,
+                time_min=time_min,
+                time_max=time_max,
+                model_id=model_id
+            )
+
+        else :
+            export_id = self.create_export(
+                team_id=team_id,
+                agent_id=agent_id,
+                time_min=time_min,
+                time_max=time_max
+            )
 
         self.start_export(export_id)
         self.wait_for_export(export_id)

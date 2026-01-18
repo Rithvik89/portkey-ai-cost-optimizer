@@ -7,22 +7,24 @@ workspace:
 team:
   id: "team1"
   agents:
-    - name: "agent4"
+    - name: "agent8"
 
 export:
   time_window:  ## This has to be calculated on fly from interval seconds.
     from: "2026-01-16"
-    to: "2026-01-18"
+    to: "2026-01-20"
   output_dir: "exports"
 
-
 models:
-  - "@openai/gpt-4"
+  - "@openai/gpt-4o-mini"
+  - "@openai/gpt-4o"
+  - "@bedrock/us.meta.llama3-1-70b-instruct-v1:0"
+  - "@openai/gpt-3.5-turbo-0125"
 
 agents:
-  agent4:
+  agent8:
     description: >
-      Generates personalized marketing email copy for Visa campaigns.
+      Generates personalized marketing email copy for XYZ(Fintech) company campaigns.
     system_prompt_for_runners: prompts/campaign_copy_generator_system.txt
     judge:
       provider: portkey
@@ -30,22 +32,12 @@ agents:
       temperature: 0
       prompt_file: prompts/campaign_copy_generator_evaluator.txt
 
-  agent2:
+  agent11:
     description: >
-      Generates personalized marketing email copy for Visa campaigns.
-    system_prompt_for_runners: prompts/campaign_copy_generator_system.txt
+      Answer employee questions about HR policies, benefits, procedures, and provide guidance on HR processes
+    system_prompt_for_runners: prompts/hr_ops_agent_system.txt
     judge:
       provider: portkey
       model: "@openai/gpt-4o-mini"
       temperature: 0
-      prompt_file: prompts/campaign_copy_generator_evaluator.txt
-
-  agent3:
-    description: >
-      Generates personalized marketing email copy for Visa campaigns.
-    system_prompt_for_runners: prompts/campaign_copy_generator_system.txt
-    judge:
-      provider: portkey
-      model: "@openai/gpt-4o-mini"
-      temperature: 0
-      prompt_file: prompts/campaign_copy_generator_evaluator.txt
+      prompt_file: prompts/hr_ops_agent_evaluator.txt

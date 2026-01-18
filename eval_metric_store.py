@@ -22,7 +22,7 @@ class EvalMetricStore:
                     agent TEXT NOT NULL,
                     model TEXT NOT NULL,
 
-                    response_time_ms REAL,
+                    response_time_ms INTEGER,
                     cost REAL,
                     quality_score REAL,
 

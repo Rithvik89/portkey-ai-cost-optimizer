@@ -128,7 +128,7 @@ class LLMJudge:
                     metadata = {}   
                     metadata["trace_id"] = entry.get("trace_id", "")
                     metadata["cost"] = entry.get("cost", 0)
-                    metadata["response_time"] = entry.get("responseTime", 0)
+                    metadata["response_time"] = entry.get("response_time", 0)
                     metadata_list.append(metadata)
                 except Exception as e:
                     print(
@@ -248,7 +248,7 @@ class LLMJudge:
 
             ## Here you can extract additional metadata if needed
             trace_id = metadata_.get("trace_id", "")
-            response_time_ms = metadata_.get("response_time_ms", 0)
+            response_time_ms = metadata_.get("response_time", 0)
             cost = metadata_.get("cost", 0)
 
             eval = {
